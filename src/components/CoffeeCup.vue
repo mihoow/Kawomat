@@ -39,23 +39,40 @@ export default {
     drawCup(ctx) {
       ctx.fillStyle = '#e6e9ed'
 
+      const points = {
+        topLeft: { x: 4, y: 20 },
+        topRight: { x: 96, y: 20 },
+        bottomRight: { x: 91, y: 100 },
+        bottomLeft: { x: 9, y: 100 },
+      }
+
       ctx.beginPath()
-      ctx.moveTo(this.x(9), this.y(100))
-      ctx.lineTo(this.x(91), this.y(100))
-      ctx.lineTo(this.x(96), this.y(20))
-      ctx.lineTo(this.x(4), this.y(20))
+      ctx.moveTo(this.x(points.bottomLeft.x), this.y(points.bottomLeft.y))
+      ctx.lineTo(this.x(points.bottomRight.x), this.y(points.bottomRight.y))
+      ctx.lineTo(this.x(points.topRight.x), this.y(points.topRight.y))
+      ctx.lineTo(this.x(points.topLeft.x), this.y(points.topLeft.y))
       ctx.closePath()
       ctx.fill()
 
-      return { startX: 4, endX: 96, startY: 100, endY: 20 }
+      return {
+        points,
+        height: points.bottomLeft.y - points.topLeft.y,
+        lowerWidth: points.bottomRight.x - points.bottomLeft.x,
+        upperWidth: points.topRight.x - points.topLeft.x,
+      }
     },
     drawLid(ctx, cupDimensions) {
-      const { startX, endX, endY } = cupDimensions
-      const maxWidth = endX - startX
+      const {
+        upperWidth,
+        points: {
+          topLeft: { x: startX },
+          topRight: { x: endX, y: endY },
+        },
+      } = cupDimensions
 
       ctx.fillStyle = '#a85d5d'
       ctx.beginPath()
-      ctx.rect(this.x(startX - 4), this.y(10), this.x(maxWidth + 8), this.y(endY - 10))
+      ctx.rect(this.x(startX - 4), this.y(10), this.x(upperWidth + 8), this.y(endY - 10))
       ctx.fill()
 
       ctx.fillStyle = '#965353'
@@ -82,9 +99,15 @@ export default {
       ctx.closePath()
       ctx.fill()
     },
-    getSectionDimensions(cupDimensions, lowerPercentage, upperPercentage) {
-      const { startY, endY } = cupDimensions
-      const cupHeight = startY - endY
+    movePoint(point, { offsetX = 0, offsetY = 0 }) {
+      const newPoint = { ...point }
+      newPoint.x += offsetX
+      newPoint.y += offsetY
+
+      return newPoint
+    },
+    calculateFragmentDimensions({ cupDimensions, lowerPercentage, upperPercentage, offsetX = 0 }) {
+      const { points: cupPoints, height: cupHeight } = cupDimensions
 
       // z twierdzenia Pitagorasa
       const cupSideLength = Math.sqrt(Math.pow(cupHeight, 2) + Math.pow(5, 2))
@@ -96,12 +119,12 @@ export default {
       const a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2))
 
       const bottomLeftPoint = {
-        x: 9 - a,
+        x: cupPoints.bottomLeft.x - a,
         y: 100 - (lowerPercentage / 100) * cupHeight,
       }
 
       const bottomRightPoint = {
-        x: 91 + a,
+        x: cupPoints.bottomRight.x + a,
         y: 100 - (lowerPercentage / 100) * cupHeight,
       }
 
@@ -110,21 +133,38 @@ export default {
       const a2 = Math.sqrt(Math.pow(c2, 2) - Math.pow(b2, 2))
 
       const topLeftPoint = {
-        x: 9 - a2,
+        x: cupPoints.bottomLeft.x - a2,
         y: 100 - (upperPercentage / 100) * cupHeight,
       }
 
       const topRightPoint = {
-        x: 91 + a2,
+        x: cupPoints.bottomRight.x + a2,
         y: 100 - (upperPercentage / 100) * cupHeight,
       }
 
       return {
-        topLeft: topLeftPoint,
-        topRight: topRightPoint,
-        bottomRight: bottomRightPoint,
-        bottomLeft: bottomLeftPoint,
+        topLeft: this.movePoint(topLeftPoint, { offsetX }),
+        topRight: this.movePoint(topRightPoint, { offsetX: -offsetX }),
+        bottomRight: this.movePoint(bottomRightPoint, { offsetX: -offsetX }),
+        bottomLeft: this.movePoint(bottomLeftPoint, { offsetX }),
       }
+    },
+    drawFragment(ctx, { cupDimensions, lowerPercentage, upperPercentage, offsetX, fillStyle }) {
+      const { topLeft, topRight, bottomRight, bottomLeft } = this.calculateFragmentDimensions({
+        cupDimensions,
+        lowerPercentage,
+        upperPercentage,
+        offsetX,
+      })
+
+      ctx.fillStyle = fillStyle
+      ctx.beginPath()
+      ctx.moveTo(this.x(topLeft.x), this.y(topLeft.y))
+      ctx.lineTo(this.x(topRight.x), this.y(topRight.y))
+      ctx.lineTo(this.x(bottomRight.x), this.y(bottomRight.y))
+      ctx.lineTo(this.x(bottomLeft.x), this.y(bottomLeft.y))
+      ctx.closePath()
+      ctx.fill()
     },
   },
   mounted() {
@@ -134,22 +174,14 @@ export default {
     const cupDimensions = this.drawCup(ctx)
     this.drawLid(ctx, cupDimensions)
 
-    const { topLeft, topRight, bottomRight, bottomLeft } = this.getSectionDimensions(
+    this.drawFragment(ctx, {
       cupDimensions,
-      35,
-      65,
-    )
+      lowerPercentage: 35,
+      upperPercentage: 65,
+      fillStyle: '#da4453',
+    })
 
-    ctx.fillStyle = '#da4453'
-    ctx.beginPath()
-    ctx.moveTo(this.x(topLeft.x), this.y(topLeft.y))
-    ctx.lineTo(this.x(topRight.x), this.y(topRight.y))
-    ctx.lineTo(this.x(bottomRight.x), this.y(bottomRight.y))
-    ctx.lineTo(this.x(bottomLeft.x), this.y(bottomLeft.y))
-    ctx.closePath()
-    ctx.fill()
-
-    const cupHeight = cupDimensions.startY - cupDimensions.endY
+    const { height: cupHeight } = cupDimensions
 
     ctx.fillStyle = '#ed5564'
     ctx.beginPath()
