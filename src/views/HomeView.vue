@@ -123,7 +123,7 @@ main {
 </style>
 
 <template>
-  <main>
+  <main @click="navigateToMenu">
     <div class="text-container">
       <p class="small-text">w naszych automatach</p>
       <span>SPRÓBUJ</span>
@@ -146,5 +146,10 @@ import MenuLink from '@/components/MenuLink.vue'
 export default {
   name: 'HomeView',
   components: { MenuLink },
+  methods: {
+    navigateToMenu() {
+      this.$router.push('/menu')
+    },
+  },
 }
 </script>
