@@ -7,14 +7,17 @@
   flex-direction: column;
 }
 
+.header-container {
+  padding: 8px 16px 10px;
+  background-color: #252323;
+}
+
 header {
   display: grid;
   grid-template-columns: min-content 2fr 1fr;
   grid-template-rows: 1fr 1fr;
   align-items: center;
-  padding: 8px 16px 10px;
   row-gap: 10px;
-  background: #252323;
 }
 
 .back-button {
@@ -24,7 +27,6 @@ header {
   background-color: #da4453;
   border: none;
   color: white;
-  font-size: 16px;
   border-radius: 8px;
 
   display: flex;
@@ -32,6 +34,10 @@ header {
   justify-content: center;
 
   cursor: pointer;
+}
+
+.back-button i {
+  font-size: 16px;
 }
 
 .back-button__label {
@@ -91,21 +97,24 @@ main {
   overflow-y: auto;
 }
 
+.footer-container {
+  padding-inline: 16px;
+}
+
 footer {
+  padding-block: 16px 8px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 45px;
-  padding: 16px 8px 8px;
 }
 
 footer::before {
   content: '';
   position: absolute;
   inset-block-start: 0;
-  inset-inline-start: 16px;
-  inset-inline-end: 16px;
+  inset-inline: 0;
   height: 3px;
   background: linear-gradient(
     to right,
@@ -161,6 +170,10 @@ footer::before {
 }
 
 @media (min-width: 768px) {
+  .header-container {
+    padding-inline: 24px;
+  }
+
   header {
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -190,41 +203,115 @@ footer::before {
     grid-row: 1 / 3;
     font-size: 46px;
   }
+
+  .footer-container {
+    padding-inline: 24px;
+  }
+
+  footer {
+    padding-block: 16px;
+  }
+
+  footer::before {
+    inset-inline: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-container {
+    padding-block: 16px;
+  }
+
+  .back-button {
+    padding: 0.5rem 1rem;
+  }
+
+  .back-button i {
+    font-size: 18px;
+  }
+
+  .back-button__label {
+    font-size: 18px;
+  }
+
+  .timestamp {
+    font-size: 16px;
+  }
+
+  .credit_amount {
+    font-size: 24px;
+  }
+
+  .credit_label {
+    font-size: 16px;
+  }
+
+  .brand {
+    font-size: 56px;
+  }
+
+  footer {
+    gap: 80px;
+  }
+
+  footer::before {
+    inset-inline-start: -5px;
+    width: calc(100%);
+  }
+
+  .locale-button img {
+    width: 70px;
+    height: auto;
+  }
+}
+
+@media (min-width: 1140px) {
+  .header-container {
+    padding-inline: 40px;
+  }
+
+  .footer-container {
+    padding-inline: 40px;
+  }
 }
 </style>
 <template>
   <div class="container">
-    <header>
-      <button class="back-button" @click="goBack">
-        <i class="bi bi-arrow-90deg-left"></i>
-        <span class="back-button__label">
-          {{ localization.t('Wróć', 'Back') }}
-        </span>
-      </button>
-      <span class="timestamp">{{ formattedTimestamp }}</span>
-      <div class="credit">
-        <span class="credit_amount">10,00 zł</span>
-        <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
-      </div>
-      <strong class="brand">Vendicafe</strong>
-    </header>
+    <div class="header-container">
+      <header class="limiter">
+        <button class="back-button" @click="goBack">
+          <i class="bi bi-arrow-90deg-left"></i>
+          <span class="back-button__label">
+            {{ localization.t('Wróć', 'Back') }}
+          </span>
+        </button>
+        <span class="timestamp">{{ formattedTimestamp }}</span>
+        <div class="credit">
+          <span class="credit_amount">10,00 zł</span>
+          <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
+        </div>
+        <strong class="brand">Vendicafe</strong>
+      </header>
+    </div>
     <main><router-view /></main>
-    <footer>
-      <button
-        class="locale-button"
-        :class="{ active: localization.currentLocale === 'pl' }"
-        @click="setLocale('pl')"
-      >
-        <img src="/images/pl.png" alt="Polish" width="50" height="31" />
-      </button>
-      <button
-        class="locale-button"
-        :class="{ active: localization.currentLocale === 'en' }"
-        @click="setLocale('en')"
-      >
-        <img src="/images/en.png" alt="English" width="50" height="31" />
-      </button>
-    </footer>
+    <div class="footer-container">
+      <footer class="limiter">
+        <button
+          class="locale-button"
+          :class="{ active: localization.currentLocale === 'pl' }"
+          @click="setLocale('pl')"
+        >
+          <img src="/images/pl.png" alt="Polish" width="50" height="31" />
+        </button>
+        <button
+          class="locale-button"
+          :class="{ active: localization.currentLocale === 'en' }"
+          @click="setLocale('en')"
+        >
+          <img src="/images/en.png" alt="English" width="50" height="31" />
+        </button>
+      </footer>
+    </div>
   </div>
 </template>
 

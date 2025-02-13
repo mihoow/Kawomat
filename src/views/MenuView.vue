@@ -1,53 +1,37 @@
 <style scoped>
 .container {
-  padding: 1rem;
+  padding: 16px;
 }
 
 .coffee-list {
-  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
   gap: 1rem;
 }
 
 .coffee-list__item {
-  --gap: 1rem;
-
   position: relative;
+  padding: 0.5rem;
+  background-color: #3a3a3a;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    background 0.3s ease;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  border-radius: 0.5rem;
 }
 
-.coffee-list__item::before,
-.coffee-list__item::after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-color: #fff;
-}
-
-.coffee-list__item::before {
-  inset-block-start: calc(48px + (var(--gap) / 2));
-  inset-inline-end: calc(-1 * var(--gap) / 2);
-  transform: translateX(50%);
-  width: 1px;
-  height: calc(100% - 48px - 24px - (var(--gap) / 2));
-}
-
-.coffee-list__item::after {
-  inset-block-end: calc(-1 * var(--gap) / 2);
-  inset-inline-start: 10%;
-  transform: translateY(-50%);
-  width: 80%;
-  height: 1px;
+.coffee-list__item:hover {
+  background-color: #4a4a4a;
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
 .coffee-list__item-name {
+  margin-block-end: 0.5rem;
   font-size: 18px;
   line-height: 24px;
   height: 48px;
@@ -60,40 +44,86 @@
 }
 
 .coffee-list__item-price {
+  display: block;
+  margin-block-start: 0.5rem;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 1;
   color: #fff;
 }
 
 @media (min-width: 768px) {
+  .container {
+    padding: 24px;
+  }
+
   .coffee-list {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.25rem;
   }
 
   .coffee-list__item {
-    --gap: 1.25rem;
+    padding-block-end: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .coffee-list {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1140px) {
+  .container {
+    padding: 40px;
+  }
+
+  .coffee-list {
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .coffee-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (min-width: 1440px) {
+  .coffee-list {
+    gap: 3rem;
+  }
+
+  .coffee-list__item-name {
+    font-size: 20px;
+    line-height: 28px;
+    height: 56px;
+  }
+
+  .coffee-list__item-price {
+    font-size: 18px;
   }
 }
 </style>
 
 <template>
   <div class="container">
-    <div class="coffee-list">
-      <router-link
-        v-for="coffee in coffeeList"
-        :key="coffee.id"
-        :to="`/menu/${coffee.id}`"
-        class="coffee-list__item"
-      >
-        <strong class="coffee-list__item-name">
-          {{ localization.t(coffee.name) }}
-        </strong>
-        <CoffeeCup :size="130" />
-        <span class="coffee-list__item-price">
-          {{ coffee.price.toFixed(2).replace('.', ',') }} zł
-        </span>
-      </router-link>
+    <div class="limiter">
+      <div class="coffee-list">
+        <router-link
+          v-for="coffee in coffeeList"
+          :key="coffee.id"
+          :to="`/menu/${coffee.id}`"
+          class="coffee-list__item"
+        >
+          <strong class="coffee-list__item-name">
+            {{ localization.t(coffee.name) }}
+          </strong>
+          <CoffeeCup :size="130" />
+          <span class="coffee-list__item-price">
+            {{ coffee.price.toFixed(2).replace('.', ',') }} zł
+          </span>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>

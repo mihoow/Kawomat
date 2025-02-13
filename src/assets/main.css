@@ -10,6 +10,12 @@
   font-weight: normal;
 }
 
+.limiter {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
 @media (min-width: 600px) {
   :root {
     --header-height: 115.09px;
@@ -19,5 +25,13 @@
 @media (min-width: 768px) {
   :root {
     --header-height: 96px;
+    --footer-height: 63px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-height: 110px;
+    --footer-height: 75.7px;
   }
 }

@@ -47,3 +47,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #da4453;
+  border-radius: 10px;
+  border: 2px solid #444;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c02e3d;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #da4453 #333;
+}
