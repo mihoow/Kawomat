@@ -35,27 +35,33 @@ export default {
     /*
      {
       '40%': {
-        text: 'espresso',
-        background: 'brown',
+        name: 'espresso',
+        colors: ['#402d20', '#4f3727', '#583d2b', '#634632', '#6f4d36'],
         contrast: 'dark'
       },
       '80%': {
-        text: 'ice cream',
-        background: 'skyblue',
+        name: 'ice cream',
+        colors: ['#71A6D1', '#85B5D9', '#99C4E1', '#ACD3E8', '#C0E2F0'],
       },
       '90%': {
-        text: 'whipped cream',
-        background: 'red'
+        name: 'whipped cream',
+        colors: ['#FEF3B3', '#FEF7C0', '#FEFCD6', '#FEFEF1', '#FFFEFE'],
       },
       '100%': {
-        text: 'chocolate',
-        background: 'brown',
-        contrast: 'dark'
-      }
+        name: 'chocolate',
+        colors: ['#3F0110', '#4B0B0D', '#5B1F07', '#6F3203', '#7B3E00'],
+        contrast: 'dark',
+      },
      }
     */
   },
   methods: {
+    getDrawingContext() {
+      const canvas = this.$refs.canvas
+      const ctx = canvas.getContext('2d')
+
+      return ctx
+    },
     x(percentage) {
       return (percentage / 100) * (this.size * 0.7)
     },
@@ -225,65 +231,78 @@ export default {
 
       return gradient
     },
+    draw(ctx = this.getDrawingContext()) {
+      const cupDimensions = this.drawCup(ctx)
+      this.drawLid(ctx, cupDimensions)
+
+      if (!this.ingredients) {
+        this.drawFragment(ctx, {
+          cupDimensions,
+          lowerPercentage: 35,
+          upperPercentage: 65,
+          fillStyle: '#da4453',
+        })
+        this.drawCoffeeBeanBackground(ctx, cupDimensions)
+      } else {
+        const ingredientEntries = Object.entries(this.ingredients)
+
+        ctx.font = 'bold 10px sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+
+        ingredientEntries.forEach(
+          ([upperPercentageStr, { colors, name, contrast = 'light' }], index) => {
+            const lowerPercentageStr = ingredientEntries[index - 1]?.[0] ?? 0
+            const fillStyle = Array.isArray(colors)
+              ? this.createLinearGradient(ctx, colors)
+              : colors[0]
+            const [lowerPercentage, upperPercentage] = (() => {
+              if (index === 0) return [4, Number(upperPercentageStr)]
+
+              if (index === 1) return [Number(lowerPercentageStr), Number(upperPercentageStr) - 4]
+
+              return [Number(lowerPercentageStr) - 4, Number(upperPercentageStr) - 4]
+            })()
+
+            const { bottomLeft, topRight } = this.drawFragment(ctx, {
+              cupDimensions,
+              lowerPercentage,
+              upperPercentage,
+              fillStyle,
+              offsetX: 4,
+            })
+
+            if (name) {
+              const width = topRight.x - bottomLeft.x
+              const height = bottomLeft.y - topRight.y
+
+              ctx.fillStyle = contrast === 'light' ? '#402d20' : '#dbe2e9'
+              ctx.fillText(
+                name.toUpperCase().split('').join(String.fromCharCode(8202)),
+                this.x(bottomLeft.x + width / 2),
+                this.y(topRight.y + height / 2),
+              )
+            }
+          },
+        )
+      }
+    },
+    redraw() {
+      const ctx = this.getDrawingContext()
+      ctx.clearRect(0, 0, this.size * 0.7, this.size)
+      this.draw(ctx)
+    },
   },
   mounted() {
-    const canvas = this.$refs.canvas
-    const ctx = canvas.getContext('2d')
-
-    const cupDimensions = this.drawCup(ctx)
-    this.drawLid(ctx, cupDimensions)
-
-    if (!this.ingredients) {
-      this.drawFragment(ctx, {
-        cupDimensions,
-        lowerPercentage: 35,
-        upperPercentage: 65,
-        fillStyle: '#da4453',
-      })
-      this.drawCoffeeBeanBackground(ctx, cupDimensions)
-    } else {
-      const ingredientEntries = Object.entries(this.ingredients)
-
-      ctx.font = 'bold 10px sans-serif'
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-
-      ingredientEntries.forEach(
-        ([upperPercentageStr, { background, text, contrast = 'light' }], index) => {
-          const lowerPercentageStr = ingredientEntries[index - 1]?.[0] ?? 0
-          const fillStyle = Array.isArray(background)
-            ? this.createLinearGradient(ctx, background)
-            : background
-          const [lowerPercentage, upperPercentage] = (() => {
-            if (index === 0) return [4, Number(upperPercentageStr)]
-
-            if (index === 1) return [Number(lowerPercentageStr), Number(upperPercentageStr) - 4]
-
-            return [Number(lowerPercentageStr) - 4, Number(upperPercentageStr) - 4]
-          })()
-
-          const { bottomLeft, topRight } = this.drawFragment(ctx, {
-            cupDimensions,
-            lowerPercentage,
-            upperPercentage,
-            fillStyle,
-            offsetX: 4,
-          })
-
-          if (text) {
-            const width = topRight.x - bottomLeft.x
-            const height = bottomLeft.y - topRight.y
-
-            ctx.fillStyle = contrast === 'light' ? '#402d20' : '#dbe2e9'
-            ctx.fillText(
-              text.toUpperCase().split('').join(String.fromCharCode(8202)),
-              this.x(bottomLeft.x + width / 2),
-              this.y(topRight.y + height / 2),
-            )
-          }
-        },
-      )
-    }
+    this.draw()
+  },
+  watch: {
+    ingredients: {
+      deep: true,
+      handler() {
+        this.redraw()
+      },
+    },
   },
 }
 </script>
