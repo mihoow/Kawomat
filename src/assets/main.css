@@ -1,6 +1,23 @@
 @import './base.css';
 
+:root {
+  --header-height: 105.44px;
+  --footer-height: 55px;
+}
+
 #app {
   min-height: 100dvh;
   font-weight: normal;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --header-height: 115.09px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: 96px;
+  }
 }

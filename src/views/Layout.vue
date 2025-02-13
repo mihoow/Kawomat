@@ -8,17 +8,17 @@
 }
 
 header {
+  display: grid;
+  grid-template-columns: min-content 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  padding: 8px 16px 10px;
+  row-gap: 10px;
   background: #252323;
 }
 
-.row-1 {
-  width: 100%;
-  padding: 8px 16px 0;
-  display: flex;
-  align-items: center;
-}
-
 .back-button {
+  justify-self: start;
   width: 30px;
   height: 30px;
   background-color: #da4453;
@@ -30,6 +30,12 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
+}
+
+.back-button__label {
+  display: none;
 }
 
 .timestamp {
@@ -39,6 +45,7 @@ header {
 }
 
 .credit {
+  grid-column: 3;
   position: relative;
   margin-inline-start: auto;
   color: #f6f6a2;
@@ -58,20 +65,15 @@ header {
   text-transform: uppercase;
 }
 
-.row-2 {
-  width: 100%;
-  padding-block: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .brand {
+  grid-column: 1 / 4;
+  grid-row: 2;
   font-family: 'Montserrat Alternates', sans-serif;
   font-weight: 700;
   font-size: 32px;
-  line-height: 39px;
+  line-height: 1.21;
   text-align: center;
+  text-transform: uppercase;
 
   @supports (-webkit-background-clip: text) {
     background: linear-gradient(to bottom, #ffffff, #f1f168);
@@ -85,6 +87,7 @@ header {
 
 main {
   flex-grow: 1;
+  max-height: calc(100dvh - var(--header-height) - var(--footer-height));
   overflow-y: auto;
 }
 
@@ -114,30 +117,96 @@ footer::before {
 }
 
 .locale-button {
+  line-height: 0;
   opacity: 0.5;
   transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .locale-button.active {
   opacity: 1;
 }
+
+@media (min-width: 480px) {
+  .row-1 {
+    padding-inline: 24px;
+  }
+
+  .back-button {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
+
+  .timestamp {
+    margin-inline-start: 24px;
+    font-size: 14px;
+  }
+
+  .credit_amount {
+    font-size: 20px;
+  }
+
+  .credit_label {
+    font-size: 14px;
+  }
+
+  .brand {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 768px) {
+  header {
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .back-button {
+    padding: 0.25rem 0.5rem;
+    width: auto;
+    gap: 0.5rem;
+  }
+
+  .back-button__label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .timestamp {
+    grid-column: 1;
+    margin-inline-start: 0;
+    grid-row: 2;
+    font-size: 15px;
+  }
+
+  .brand {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    font-size: 46px;
+  }
+}
 </style>
 <template>
   <div class="container">
     <header>
-      <div class="row-1">
-        <button class="back-button" @click="goBack">
-          <i class="bi bi-arrow-90deg-left"></i>
-        </button>
-        <span class="timestamp">{{ formattedTimestamp }}</span>
-        <div class="credit">
-          <span class="credit_amount">10.00 zł</span>
-          <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
-        </div>
+      <button class="back-button" @click="goBack">
+        <i class="bi bi-arrow-90deg-left"></i>
+        <span class="back-button__label">
+          {{ localization.t('Wróć', 'Back') }}
+        </span>
+      </button>
+      <span class="timestamp">{{ formattedTimestamp }}</span>
+      <div class="credit">
+        <span class="credit_amount">10,00 zł</span>
+        <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
       </div>
-      <div class="row-2">
-        <strong class="brand">Vendicafe</strong>
-      </div>
+      <strong class="brand">Vendicafe</strong>
     </header>
     <main><router-view /></main>
     <footer>

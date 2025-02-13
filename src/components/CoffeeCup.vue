@@ -14,7 +14,7 @@
 
 <template>
   <div class="wrapper">
-    <canvas id="canvas" :width="size * 0.7" :height="size" />
+    <canvas ref="canvas" :width="size * 0.7" :height="size" />
     <div v-if="!ingredients" class="coffee-image">
       <img src="/coffee-bean.svg" :width="size / 4" :height="size / 4" />
     </div>
@@ -227,7 +227,7 @@ export default {
     },
   },
   mounted() {
-    const canvas = document.getElementById('canvas')
+    const canvas = this.$refs.canvas
     const ctx = canvas.getContext('2d')
 
     const cupDimensions = this.drawCup(ctx)
