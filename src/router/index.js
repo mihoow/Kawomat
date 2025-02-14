@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import TestView from '../views/TestView.vue'
 import MenuView from '../views/MenuView.vue'
 import CoffeeView from '../views/CoffeeView.vue'
+import LoadingView from '../views/LoadingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +32,11 @@ const router = createRouter({
           path: '/menu/:id',
           name: 'coffee-details',
           component: CoffeeView,
+        },
+        {
+          path: '/menu/:id/loading',
+          name: 'loading',
+          component: LoadingView,
         },
       ],
     },

@@ -28,6 +28,7 @@ export const data = [
     tags: ['cold'],
     strength: 2,
     popularity: 4,
+    timeEffort: 15,
   },
   {
     id: 'irish-coffee',
@@ -64,6 +65,7 @@ export const data = [
     tags: ['alcohol'],
     strength: 3,
     popularity: 2,
+    timeEffort: 22,
   },
   {
     id: 'mokka',
@@ -94,6 +96,7 @@ export const data = [
     tags: ['chocolate'],
     strength: 3,
     popularity: 4,
+    timeEffort: 25,
   },
   {
     id: 'dalgona-coffee',
@@ -124,6 +127,7 @@ export const data = [
     tags: ['cold'],
     strength: 2,
     popularity: 3,
+    timeEffort: 28,
   },
   {
     id: 'black-coffee',
@@ -142,6 +146,7 @@ export const data = [
     tags: ['classic'],
     strength: 3,
     popularity: 5,
+    timeEffort: 12,
   },
   {
     id: 'americano',
@@ -166,6 +171,7 @@ export const data = [
     tags: ['classic'],
     strength: 2,
     popularity: 4,
+    timeEffort: 14,
   },
   {
     id: 'flat-white',
@@ -190,6 +196,7 @@ export const data = [
     tags: ['classic', 'milk'],
     strength: 4,
     popularity: 4,
+    timeEffort: 22,
   },
   {
     name: { pl: 'Macchiato', en: 'Macchiato' },
@@ -213,6 +220,7 @@ export const data = [
     tags: ['classic', 'milk'],
     strength: 4,
     popularity: 3,
+    timeEffort: 18,
   },
   {
     id: 'cafe-au-lait',
@@ -243,6 +251,7 @@ export const data = [
     tags: ['classic', 'milk'],
     strength: 2,
     popularity: 3,
+    timeEffort: 20,
   },
   {
     id: 'cappuccino',
@@ -276,6 +285,7 @@ export const data = [
     tags: ['classic', 'milk'],
     strength: 3,
     popularity: 5,
+    timeEffort: 25,
   },
   {
     id: 'viennese-coffee',
@@ -300,6 +310,7 @@ export const data = [
     tags: ['classic', 'sweet'],
     strength: 4,
     popularity: 2,
+    timeEffort: 20,
   },
   {
     id: 'cortado',
@@ -324,6 +335,7 @@ export const data = [
     tags: ['classic', 'milk'],
     strength: 4,
     popularity: 2,
+    timeEffort: 18,
   },
   {
     id: 'breve',
@@ -357,6 +369,7 @@ export const data = [
     tags: ['milk', 'creamy'],
     strength: 3,
     popularity: 2,
+    timeEffort: 22,
   },
   {
     id: 'espresso-con-panna',
@@ -381,6 +394,7 @@ export const data = [
     tags: ['sweet', 'classic'],
     strength: 4,
     popularity: 2,
+    timeEffort: 18,
   },
   {
     id: 'cafe-bombon',
@@ -408,6 +422,7 @@ export const data = [
     tags: ['sweet', 'dessert'],
     strength: 4,
     popularity: 2,
+    timeEffort: 20,
   },
   {
     id: 'marocchino',
@@ -438,6 +453,7 @@ export const data = [
     tags: ['chocolate', 'dessert'],
     strength: 3,
     popularity: 2,
+    timeEffort: 25,
   },
   {
     id: 'cold-brew',
@@ -462,6 +478,7 @@ export const data = [
     tags: ['cold'],
     strength: 4,
     popularity: 3,
+    timeEffort: 12,
   },
   {
     id: 'caffe-corretto',
@@ -486,6 +503,7 @@ export const data = [
     tags: ['alcohol'],
     strength: 4,
     popularity: 1,
+    timeEffort: 20,
   },
   {
     id: 'lungo',
@@ -510,6 +528,7 @@ export const data = [
     tags: ['classic'],
     strength: 2,
     popularity: 3,
+    timeEffort: 15,
   },
   {
     id: 'red-eye',
@@ -537,6 +556,7 @@ export const data = [
     tags: ['strong', 'classic'],
     strength: 5,
     popularity: 2,
+    timeEffort: 22,
   },
   {
     id: 'frappe',
@@ -567,6 +587,7 @@ export const data = [
     tags: ['cold'],
     strength: 2,
     popularity: 3,
+    timeEffort: 25,
   },
   {
     id: 'nitro-coffee',
@@ -591,6 +612,7 @@ export const data = [
     tags: ['cold'],
     strength: 4,
     popularity: 2,
+    timeEffort: 15,
   },
   {
     id: 'kahlúa-coffee',
@@ -615,6 +637,7 @@ export const data = [
     tags: ['alcohol'],
     strength: 3,
     popularity: 1,
+    timeEffort: 20,
   },
   {
     id: 'bicerin',
@@ -648,6 +671,7 @@ export const data = [
     tags: ['chocolate', 'sweet'],
     strength: 3,
     popularity: 1,
+    timeEffort: 28,
   },
   {
     id: 'espresso',
@@ -666,6 +690,7 @@ export const data = [
     tags: ['classic'],
     strength: 4,
     popularity: 4,
+    timeEffort: 12,
   },
   {
     id: 'latte',
@@ -690,6 +715,7 @@ export const data = [
     tags: ['classic', 'milk'],
     strength: 2,
     popularity: 5,
+    timeEffort: 22,
   },
   {
     id: 'ristretto',
@@ -708,5 +734,6 @@ export const data = [
     tags: ['classic'],
     strength: 4,
     popularity: 2,
+    timeEffort: 12,
   },
 ]

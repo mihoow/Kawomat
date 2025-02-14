@@ -1,5 +1,5 @@
 <style scoped>
-.container {
+.layout {
   min-height: 100dvh;
   background-color: #565656;
 
@@ -7,9 +7,29 @@
   flex-direction: column;
 }
 
-.header-container {
+.layout__header {
   padding: 8px 16px 10px;
   background-color: #252323;
+}
+
+.layout__page {
+  flex-grow: 1;
+  max-height: calc(100dvh - var(--header-height));
+  overflow-y: auto;
+}
+
+.page-menu .layout__page {
+  max-height: unset;
+  overflow-y: unset;
+}
+
+main {
+  min-height: calc(100dvh - var(--header-height));
+}
+
+.page-menu main {
+  max-height: calc(100dvh - var(--header-height) - var(--footer-height));
+  overflow-y: auto;
 }
 
 header {
@@ -48,6 +68,11 @@ header {
   margin-inline-start: 16px;
   font-size: 12px;
   color: #f6f6a2;
+}
+
+.page-loading .timestamp {
+  grid-column: 1 / 3;
+  margin-inline-start: 0;
 }
 
 .credit {
@@ -91,14 +116,10 @@ header {
   }
 }
 
-main {
-  flex-grow: 1;
-  max-height: calc(100dvh - var(--header-height) - var(--footer-height));
-  overflow-y: auto;
-}
-
 .footer-container {
   padding-inline: 16px;
+  background-color: #252323;
+  border-top: 2px solid #da4453;
 }
 
 footer {
@@ -108,21 +129,6 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 45px;
-}
-
-footer::before {
-  content: '';
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline: 0;
-  height: 3px;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.8),
-    #da4453,
-    rgba(255, 255, 255, 0.8)
-  );
-  border-radius: 50%;
 }
 
 .locale-button {
@@ -170,7 +176,7 @@ footer::before {
 }
 
 @media (min-width: 768px) {
-  .header-container {
+  .layout__header {
     padding-inline: 24px;
   }
 
@@ -218,7 +224,7 @@ footer::before {
 }
 
 @media (min-width: 1024px) {
-  .header-container {
+  .layout__header {
     padding-block: 16px;
   }
 
@@ -266,7 +272,7 @@ footer::before {
 }
 
 @media (min-width: 1140px) {
-  .header-container {
+  .layout__header {
     padding-inline: 40px;
   }
 
@@ -276,10 +282,10 @@ footer::before {
 }
 </style>
 <template>
-  <div class="container">
-    <div class="header-container">
+  <div class="layout" :class="`page-${currentPage}`">
+    <div class="layout__header">
       <header class="limiter">
-        <button class="back-button" @click="goBack">
+        <button v-if="currentPage !== 'loading'" class="back-button" @click="goBack">
           <i class="bi bi-arrow-90deg-left"></i>
           <span class="back-button__label">
             {{ localization.t('Wróć', 'Back') }}
@@ -293,24 +299,26 @@ footer::before {
         <strong class="brand">Vendicafe</strong>
       </header>
     </div>
-    <main><router-view /></main>
-    <div class="footer-container">
-      <footer class="limiter">
-        <button
-          class="locale-button"
-          :class="{ active: localization.currentLocale === 'pl' }"
-          @click="setLocale('pl')"
-        >
-          <img src="/images/pl.png" alt="Polish" width="50" height="31" />
-        </button>
-        <button
-          class="locale-button"
-          :class="{ active: localization.currentLocale === 'en' }"
-          @click="setLocale('en')"
-        >
-          <img src="/images/en.png" alt="English" width="50" height="31" />
-        </button>
-      </footer>
+    <div class="layout__page">
+      <main><router-view /></main>
+      <div class="footer-container">
+        <footer class="limiter">
+          <button
+            class="locale-button"
+            :class="{ active: localization.currentLocale === 'pl' }"
+            @click="setLocale('pl')"
+          >
+            <img src="/images/pl.png" alt="Polish" width="50" height="31" />
+          </button>
+          <button
+            class="locale-button"
+            :class="{ active: localization.currentLocale === 'en' }"
+            @click="setLocale('en')"
+          >
+            <img src="/images/en.png" alt="English" width="50" height="31" />
+          </button>
+        </footer>
+      </div>
     </div>
   </div>
 </template>
@@ -319,13 +327,14 @@ footer::before {
 import localization from '@/localization'
 
 const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'touchstart']
-const INACTIVITY_TIMEOUT = 60000 * 30 // TODO: change this for production
+const INACTIVITY_TIMEOUT = 60000 * 300
 
 export default {
   name: 'AppLayout',
   data() {
     return {
       localization,
+      currentPage: this.getCurrentPage(),
       intervalId: null,
       timeoutId: null,
       timestamp: new Date(),
@@ -379,10 +388,46 @@ export default {
       this.clearInactivityTimer()
       this.startInactivityTimer()
     },
+    getCurrentPage() {
+      const path = this.$route.path
+
+      if (path === '/menu') {
+        return 'menu'
+      } else if (/^\/menu\/[^\/]+\/loading$/.test(path)) {
+        return 'loading'
+      } else if (/^\/menu\/[^\/]+$/.test(path)) {
+        return 'coffee-details'
+      } else {
+        return 'unknown'
+      }
+    },
   },
   computed: {
     formattedTimestamp() {
       return this.getFormattedTimestamp(this.timestamp)
+    },
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to) {
+        const prevPage = this.currentPage
+        this.currentPage = this.getCurrentPage()
+
+        if (prevPage !== 'loading' && this.currentPage === 'loading') {
+          ACTIVITY_EVENTS.forEach((event) => {
+            document.removeEventListener(event, this.restartInactivityTimer)
+          })
+
+          this.clearInactivityTimer()
+        } else if (prevPage === 'loading' && this.currentPage !== 'loading') {
+          this.startInactivityTimer()
+
+          ACTIVITY_EVENTS.forEach((event) => {
+            document.addEventListener(event, this.restartInactivityTimer)
+          })
+        }
+      },
     },
   },
   mounted() {
