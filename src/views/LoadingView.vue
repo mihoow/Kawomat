@@ -10,6 +10,9 @@
 
 .loading-view__top {
   flex-grow: 1;
+  margin-inline: auto;
+  max-width: 320px;
+  width: 100%;
   padding: 1rem;
 
   display: flex;
@@ -67,12 +70,14 @@
 }
 
 .text__brand {
+  display: none;
   font-family: 'Montserrat Alternates', sans-serif;
   font-weight: 700;
   font-size: 32px;
   line-height: 1.21;
   text-align: center;
   text-transform: uppercase;
+  -webkit-text-stroke: 1px #da4453;
 
   @supports (-webkit-background-clip: text) {
     background: linear-gradient(to bottom, #ffffff, #f1f168);
@@ -133,6 +138,109 @@
 .loading__coffee-name {
   color: #f5e3c3;
 }
+
+@media (min-height: 640px) {
+  .logo-spaceholder {
+    height: 160px;
+  }
+
+  .logo {
+    transform: translateY(-10%);
+  }
+}
+
+@media (min-height: 800px) {
+  .loading-view {
+    min-height: calc(100dvh - var(--footer-height) - var(--header-height));
+  }
+}
+
+@media (min-width: 414px) {
+  .loading__coffee-name {
+    font-size: 17px;
+  }
+
+  .text {
+    margin-block-start: 30px;
+  }
+}
+
+@media (min-width: 600px) {
+  .logo-spaceholder {
+    height: auto;
+  }
+
+  .logo {
+    height: 200px;
+    transform: translateY(0);
+  }
+
+  .logo__ellipse--1 {
+    width: 210px;
+    height: 210px;
+  }
+
+  .logo__ellipse--2 {
+    width: 168px;
+    height: 168px;
+  }
+
+  .logo__image {
+    width: 99px;
+  }
+}
+
+@media (min-width: 768px) {
+  .text__brand {
+    margin-block-end: 16px;
+    display: block;
+    transform: translateY(-14px);
+  }
+
+  .loading {
+    margin-inline: auto;
+    margin-block-end: 24px;
+    width: auto;
+    border-radius: 16px;
+
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 1fr 1fr;
+    column-gap: 32px;
+  }
+
+  .loading__image {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    place-self: center;
+  }
+
+  .loading__label span {
+    font-size: 16px;
+  }
+
+  .loading__coffee-name {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .text_line {
+    height: 55px;
+  }
+
+  .text__brand {
+    font-size: 44px;
+  }
+
+  .text_line--1 {
+    font-size: 36px;
+  }
+
+  .text_line--2 {
+    font-size: 40px;
+  }
+}
 </style>
 
 <template>
@@ -142,11 +250,11 @@
         <div class="logo">
           <div class="logo__ellipse logo__ellipse--1" />
           <div class="logo__ellipse logo__ellipse--2" />
-          <img src="/images/logo.png" alt="logo" width="99" class="logo__image" />
+          <img src="/images/coff-3.png" alt="logo" width="65" class="logo__image" />
         </div>
       </div>
       <div class="text">
-        <strong v-if="false" class="text__brand">Vendicafe</strong>
+        <strong class="text__brand">Vendicafe</strong>
         <strong class="text_line text_line--1">{{ localization.t('Kawa na', 'Coffee to') }}</strong>
         <strong class="text_line text_line--2">{{
           localization.t('Dzień dobry', 'Start your day')
@@ -160,7 +268,7 @@
         <strong class="loading__coffee-name">{{ localization.t(coffee.name) }}</strong>
       </p>
       <ProgressLoader :seconds="coffee.timeEffort" />
-      <img src="/images/coffee.gif" alt="coffee" width="100" />
+      <img src="/images/coffee.gif" alt="coffee" width="100" class="loading__image" />
     </div>
   </div>
 </template>

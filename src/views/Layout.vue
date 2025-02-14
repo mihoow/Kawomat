@@ -8,8 +8,12 @@
 }
 
 .layout__header {
+  min-height: var(--header-height);
   padding: 8px 16px 10px;
   background-color: #252323;
+
+  display: flex;
+  align-items: center;
 }
 
 .layout__page {
@@ -144,6 +148,12 @@ footer {
 
 .locale-button.active {
   opacity: 1;
+}
+
+@media (min-height: 800px) {
+  main {
+    min-height: calc(100dvh - var(--footer-height) - var(--header-height));
+  }
 }
 
 @media (min-width: 480px) {
@@ -293,7 +303,7 @@ footer {
         </button>
         <span class="timestamp">{{ formattedTimestamp }}</span>
         <div class="credit">
-          <span class="credit_amount">10,00 zł</span>
+          <span class="credit_amount">10{{ localization.t(',', '.') }}00 zł</span>
           <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
         </div>
         <strong class="brand">Vendicafe</strong>

@@ -1,5 +1,6 @@
 <style scoped>
 .progress-container {
+  max-width: 400px;
   width: 100%;
   border-radius: 6px;
   position: relative;
@@ -13,6 +14,7 @@
   width: 100%;
   height: 4px;
   background-color: #aaa;
+  border-radius: 12px;
 }
 
 .progress-bar::after {
@@ -75,6 +77,25 @@
 
   to {
     inset-inline-start: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .progress-container {
+    min-width: 300px;
+  }
+
+  .progress-bar {
+    height: 8px;
+  }
+
+  .progress-bar::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  .progress-text {
+    margin-block-start: 8px;
   }
 }
 </style>
