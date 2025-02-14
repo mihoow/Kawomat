@@ -145,6 +145,8 @@ export default {
           this.remainingSeconds = 0
           cancelAnimationFrame(this.raf)
           this.raf = null
+
+          this.$emit('finish')
         } else {
           this.remainingSeconds = Math.ceil(remainingMilliseconds / 1000)
           this.startCountdown()

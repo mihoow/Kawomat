@@ -267,26 +267,36 @@
         <span>{{ localization.t('Trwa przygotowywanie kawy', 'Preparing coffee') }}:</span>
         <strong class="loading__coffee-name">{{ localization.t(coffee.name) }}</strong>
       </p>
-      <ProgressLoader :seconds="coffee.timeEffort" />
+      <ProgressLoader :seconds="coffee.timeEffort" @finish="openReadyModal" />
       <img src="/images/coffee.gif" alt="coffee" width="100" class="loading__image" />
     </div>
   </div>
+
+  <CoffeeReadyModal :show="readyModalOpen" />
 </template>
 
 <script>
 import localization from '@/localization'
 import ProgressLoader from '@/components/ProgressLoader.vue'
+import CoffeeReadyModal from '@/views/CoffeeReadyModal.vue'
 import { data as coffeeData } from '@/data'
 
 export default {
   name: 'LoadingView',
   components: {
     ProgressLoader,
+    CoffeeReadyModal,
   },
   data() {
     return {
       localization,
+      readyModalOpen: false,
     }
+  },
+  methods: {
+    openReadyModal() {
+      this.readyModalOpen = true
+    },
   },
   computed: {
     coffee() {
