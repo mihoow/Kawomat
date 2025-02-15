@@ -155,7 +155,7 @@ main {
       <div class="bottom-container__menu-link">
         <MenuLink />
       </div>
-      <img src="/images/beans2.png" alt="coffee beans" width="300" />
+      <img src="/images/beans.png" alt="coffee beans" width="300" />
     </div>
   </main>
 </template>

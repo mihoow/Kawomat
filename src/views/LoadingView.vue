@@ -250,7 +250,7 @@
         <div class="logo">
           <div class="logo__ellipse logo__ellipse--1" />
           <div class="logo__ellipse logo__ellipse--2" />
-          <img src="/images/coff-3.png" alt="logo" width="65" class="logo__image" />
+          <img src="/images/vendicafe.png" alt="logo" width="65" class="logo__image" />
         </div>
       </div>
       <div class="text">
