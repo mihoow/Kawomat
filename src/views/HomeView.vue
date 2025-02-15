@@ -9,6 +9,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  cursor: pointer;
 }
 
 .text-container {
@@ -134,8 +135,8 @@ main {
       <span>ZIARNA</span>
     </div>
     <div class="bottom-container">
-      <img src="/images/beans2.png" alt="coffee beans" width="300" />
       <MenuLink />
+      <img src="/images/beans2.png" alt="coffee beans" width="300" />
     </div>
   </main>
 </template>

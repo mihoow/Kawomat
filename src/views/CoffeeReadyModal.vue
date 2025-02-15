@@ -81,6 +81,7 @@
 
 <script>
 import localization from '@/localization'
+import store from '@/store'
 
 export default {
   name: 'CoffeeReadyModal',
@@ -99,6 +100,7 @@ export default {
   methods: {
     afterEnter() {
       this.timerId = setTimeout(() => {
+        store.reset()
         this.$router.push('/')
       }, 6000)
     },

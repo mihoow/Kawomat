@@ -6,6 +6,8 @@ import MenuView from '../views/MenuView.vue'
 import CoffeeView from '../views/CoffeeView.vue'
 import LoadingView from '../views/LoadingView.vue'
 
+import store from '@/store'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,6 +39,13 @@ const router = createRouter({
           path: '/menu/:id/loading',
           name: 'loading',
           component: LoadingView,
+          beforeEnter: (to, _from, next) => {
+            if (!store.order) {
+              next(`/menu/${to.params.id}`)
+            } else {
+              next()
+            }
+          },
         },
       ],
     },

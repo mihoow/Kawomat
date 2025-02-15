@@ -309,7 +309,9 @@ footer {
         </button>
         <span class="timestamp">{{ formattedTimestamp }}</span>
         <div class="credit">
-          <span class="credit_amount">10{{ localization.t(',', '.') }}00 zł</span>
+          <span class="credit_amount"
+            >{{ creditValue.toFixed(2).replace('.', localization.t(',', '.')) }} zł</span
+          >
           <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
         </div>
         <strong class="brand">Vendicafe</strong>
@@ -341,6 +343,7 @@ footer {
 
 <script>
 import localization from '@/localization'
+import store from '@/store'
 
 const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'touchstart']
 const INACTIVITY_TIMEOUT = 60000 * 300
@@ -350,6 +353,7 @@ export default {
   data() {
     return {
       localization,
+      store,
       currentPage: this.getCurrentPage(),
       intervalId: null,
       timeoutId: null,
@@ -419,6 +423,13 @@ export default {
     },
   },
   computed: {
+    creditValue() {
+      if (this.currentPage === 'loading' && store.order) {
+        return store.credit - store.order.totalPrice
+      }
+
+      return store.credit
+    },
     formattedTimestamp() {
       return this.getFormattedTimestamp(this.timestamp)
     },

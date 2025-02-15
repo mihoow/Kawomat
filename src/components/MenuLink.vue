@@ -10,6 +10,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+
+  transition: transform 0.2s ease;
+}
+
+.menu-link:hover {
+  transform-origin: center;
+  transform: scale(1.05);
 }
 
 .menu-link span {

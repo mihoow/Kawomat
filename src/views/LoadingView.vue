@@ -277,6 +277,7 @@
 
 <script>
 import localization from '@/localization'
+
 import ProgressLoader from '@/components/ProgressLoader.vue'
 import CoffeeReadyModal from '@/views/CoffeeReadyModal.vue'
 import { data as coffeeData } from '@/data'

@@ -311,6 +311,8 @@
 <script>
 import { data as coffeeData } from '@/data'
 import localization from '@/localization'
+import store from '@/store'
+
 import CoffeeCup from '@/components/CoffeeCup.vue'
 import SugarStrengthPicker from '@/components/SugarStrengthPicker.vue'
 import CoffeeTypePicker from '@/components/CoffeeTypePicker.vue'
@@ -368,6 +370,7 @@ export default {
       this.$router.push('/menu')
     },
     confirm() {
+      store.makeOrder(this.coffee.id, this.totalPrice)
       this.$router.push(`/menu/${this.$route.params.id}/loading`)
     },
   },
