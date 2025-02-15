@@ -10,14 +10,28 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.coffee-name {
+  position: absolute;
+  inset-block-end: 8px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+  text-transform: uppercase;
+  text-align: center;
+}
 </style>
 
 <template>
   <div class="wrapper">
     <canvas ref="canvas" :width="size * 0.7" :height="size" />
     <div v-if="!ingredients" class="coffee-image">
-      <img src="/coffee-bean.svg" :width="size / 4" :height="size / 4" />
+      <img src="/images/coffee-bean.svg" :width="size / 4" :height="size / 4" />
     </div>
+    <strong v-if="!ingredients" class="coffee-name">Vendicafe</strong>
   </div>
 </template>
 
