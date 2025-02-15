@@ -111,7 +111,7 @@
 
 <template>
   <div class="picker-container">
-    <strong class="label">{{ localization.t('Ilość cukru', 'Sugar strength') }}</strong>
+    <strong class="label">{{ localization.t('Ilość cukru', 'Sugar strength') }}:</strong>
     <div class="picker">
       <div class="picker__option-wrapper">
         <button

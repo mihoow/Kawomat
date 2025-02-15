@@ -1,43 +1,15 @@
 <style scoped>
 .menu-link {
-  position: relative;
-  z-index: 2;
-
-  width: 144px;
+  width: 172px;
   height: 60px;
   background-color: rgba(122, 159, 191, 0.8);
-  border-block: 1px solid rgb(92, 129, 161);
+  border: 1px solid rgb(92, 129, 161);
+  border-radius: 9999px;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-.menu-link::before,
-.menu-link::after {
-  content: '';
-  display: block;
-  position: absolute;
-  z-index: -1;
-  inset-block: -1px;
-  width: 50px;
-  border-radius: 100%;
-  background-color: rgba(122, 159, 191, 0.8);
-}
-
-.menu-link::before {
-  right: 100%;
-  transform: translateX(50%);
-  clip-path: inset(0 50% 0 0);
-  border: 1px solid rgb(92, 129, 161);
-}
-
-.menu-link::after {
-  left: 100%;
-  transform: translateX(-50%);
-  clip-path: inset(0 0 0 50%);
-  border: 1px solid rgb(92, 129, 161);
 }
 
 .menu-link span {
@@ -57,7 +29,7 @@
 
 @media (min-width: 768px) {
   .menu-link {
-    width: 180px;
+    width: 200px;
   }
 
   .menu-link span {

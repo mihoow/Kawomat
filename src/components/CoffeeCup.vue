@@ -246,7 +246,7 @@ export default {
       } else {
         const ingredientEntries = Object.entries(this.ingredients)
 
-        ctx.font = 'bold 10px sans-serif'
+        ctx.font = 'bold 13px "Bree Serif", sans-serif'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
 
@@ -302,6 +302,11 @@ export default {
       handler() {
         this.redraw()
       },
+    },
+    size() {
+      this.$nextTick(() => {
+        this.redraw()
+      })
     },
   },
 }
