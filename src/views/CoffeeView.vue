@@ -291,7 +291,7 @@
       <div class="actions-inner">
         <span class="actions__price">
           {{ localization.t('Do zapłaty', 'To pay') }}:
-          <strong> {{ totalPrice.toFixed(2).replace('.', localization.t(',', '.')) }} zł </strong>
+          <strong> {{ localization.formatPrice(totalPrice) }} </strong>
         </span>
         <div class="actions__buttons">
           <button class="actions__btn actions__btn--cancel" @click="cancel">

@@ -13,7 +13,6 @@ main {
 }
 
 .text-container {
-  flex-grow: 1;
   margin-block-start: 16px;
   text-align: center;
   font-weight: 700;
@@ -38,12 +37,26 @@ main {
 }
 
 .bottom-container {
+  flex-grow: 1;
   margin-block-end: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
+}
+
+.bottom-container__menu-link {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 380px) {
+  .bottom-container img {
+    width: 200px;
+  }
 }
 
 @media (min-width: 360px) {
@@ -93,7 +106,7 @@ main {
   }
 
   .bottom-container img {
-    width: 400px;
+    width: 300px;
   }
 }
 
@@ -103,7 +116,7 @@ main {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1140px) {
   main {
     padding: 40px;
   }
@@ -120,6 +133,10 @@ main {
   .bottom-container {
     gap: 40px;
   }
+
+  .bottom-container img {
+    width: 400px;
+  }
 }
 </style>
 
@@ -135,7 +152,9 @@ main {
       <span>ZIARNA</span>
     </div>
     <div class="bottom-container">
-      <MenuLink />
+      <div class="bottom-container__menu-link">
+        <MenuLink />
+      </div>
       <img src="/images/beans2.png" alt="coffee beans" width="300" />
     </div>
   </main>

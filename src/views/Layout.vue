@@ -309,9 +309,7 @@ footer {
         </button>
         <span class="timestamp">{{ formattedTimestamp }}</span>
         <div class="credit">
-          <span class="credit_amount"
-            >{{ store.credit.toFixed(2).replace('.', localization.t(',', '.')) }} zł</span
-          >
+          <span class="credit_amount">{{ localization.formatPrice(store.credit) }}</span>
           <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
         </div>
         <strong class="brand">Vendicafe</strong>
@@ -365,7 +363,11 @@ export default {
       localization.setLocale(locale)
     },
     goBack() {
-      this.$router.go(-1)
+      if (this.currentPage === 'coffee-details') {
+        this.$router.push('/menu')
+      } else {
+        this.$router.push('/')
+      }
     },
     getFormattedTimestamp(now) {
       const daysOfWeek = {

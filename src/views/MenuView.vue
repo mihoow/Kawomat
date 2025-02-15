@@ -30,6 +30,49 @@
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
+.coffee-list__item-tags {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.tag {
+  width: max-content;
+  padding: 4px 8px;
+  background-color: #2e2e2e;
+  border-radius: 10px;
+  border: 1px solid;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tag--cold {
+  border-color: #20c3d0;
+}
+
+.tag--chocolate {
+  border-color: #d76e00;
+}
+
+.tag--alcohol {
+  border-color: #ffb132;
+}
+
+.tag svg {
+  width: 26px;
+  height: auto;
+}
+
+.tag__label {
+  font-size: 14px;
+  color: #fff;
+}
+
 .coffee-list__item-name {
   margin-block-end: 0.5rem;
   font-size: 18px;
@@ -38,6 +81,13 @@
   text-align: center;
   color: #fff;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coffee-list__item-cup {
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,12 +165,34 @@
           :to="`/menu/${coffee.id}`"
           class="coffee-list__item"
         >
+          <div class="coffee-list__item-tags">
+            <div class="tag tag--cold" v-if="coffee.tags.includes('cold')">
+              <ColdIcon />
+              <span class="tag__label">
+                {{ localization.t('na zimno', 'iced') }}
+              </span>
+            </div>
+            <div class="tag tag--chocolate" v-if="coffee.tags.includes('chocolate')">
+              <ChocolateIcon />
+              <span class="tag__label">
+                {{ localization.t('z czekoladą', 'with chocolate') }}
+              </span>
+            </div>
+            <div class="tag tag--alcohol" v-if="coffee.tags.includes('alcohol')">
+              <AlcoholIcon />
+              <span class="tag__label">
+                {{ localization.t('z alkoholem', 'with alcohol') }}
+              </span>
+            </div>
+          </div>
           <strong class="coffee-list__item-name">
             {{ localization.t(coffee.name) }}
           </strong>
-          <CoffeeCup :size="130" />
+          <div class="coffee-list__item-cup">
+            <CoffeeCup :size="130" />
+          </div>
           <span class="coffee-list__item-price">
-            {{ coffee.price.toFixed(2).replace('.', ',') }} zł
+            {{ localization.formatPrice(coffee.price) }}
           </span>
         </router-link>
       </div>
@@ -131,12 +203,19 @@
 <script>
 import localization from '@/localization'
 import { data as coffeeData } from '@/data'
+
 import CoffeeCup from '@/components/CoffeeCup.vue'
+import ColdIcon from '@/assets/icons/cold.svg'
+import ChocolateIcon from '@/assets/icons/chocolate.svg'
+import AlcoholIcon from '@/assets/icons/alcohol2.svg'
 
 export default {
   name: 'MenuView',
   components: {
     CoffeeCup,
+    ColdIcon,
+    ChocolateIcon,
+    AlcoholIcon,
   },
   data() {
     return {

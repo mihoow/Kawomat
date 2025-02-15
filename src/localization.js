@@ -11,6 +11,13 @@ const localization = reactive({
     return this.currentLocale === 'pl' ? plText : enText
   },
 
+  formatPrice(price) {
+    return new Intl.NumberFormat(this.currentLocale === 'pl' ? 'pl-PL' : 'en-US', {
+      style: 'currency',
+      currency: 'PLN',
+    }).format(price)
+  },
+
   setLocale(locale) {
     if (['pl', 'en'].includes(locale)) {
       this.currentLocale = locale
