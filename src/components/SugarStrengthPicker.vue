@@ -60,7 +60,13 @@
 
   transition:
     border-color 0.2s ease-in-out,
-    box-shadow 0.2s ease-in-out;
+    box-shadow 0.2s ease-in-out,
+    transform 0.2s ease;
+}
+
+.picker__option:hover {
+  transform-origin: center;
+  transform: scale(1.06);
 }
 
 .picker__option--no-sugar {
@@ -116,8 +122,8 @@
       <div class="picker__option-wrapper">
         <button
           class="picker__option picker__option--no-sugar"
-          :class="{ active: selectedOption === 0 }"
-          @click="selectOption(0)"
+          :class="{ active: selected === -1 }"
+          @click="selectOption(-1)"
         >
           <SugarIcon class="picker__option-icon" />
         </button>
@@ -125,26 +131,14 @@
           {{ localization.t('bez cukru', 'no sugar') }}
         </span>
       </div>
-      <button
-        class="picker__option"
-        :class="{ active: selectedOption === 1 }"
-        @click="selectOption(1)"
-      >
+      <button class="picker__option" :class="{ active: selected === 0 }" @click="selectOption(0)">
         <span>1</span>
       </button>
-      <button
-        class="picker__option"
-        :class="{ active: selectedOption === 2 }"
-        @click="selectOption(2)"
-      >
+      <button class="picker__option" :class="{ active: selected === 1 }" @click="selectOption(1)">
         <span>2</span>
       </button>
       <div class="picker__option-wrapper">
-        <button
-          class="picker__option"
-          :class="{ active: selectedOption === 3 }"
-          @click="selectOption(3)"
-        >
+        <button class="picker__option" :class="{ active: selected === 2 }" @click="selectOption(2)">
           <span>3</span>
         </button>
         <span class="picker__option-label">
@@ -161,18 +155,23 @@ import SugarIcon from '@/assets/icons/sugar.svg'
 
 export default {
   name: 'SugarStrengthPicker',
+  props: {
+    selected: {
+      type: Number,
+      default: 0,
+    },
+  },
   components: {
     SugarIcon,
   },
   data() {
     return {
       localization,
-      selectedOption: 1,
     }
   },
   methods: {
     selectOption(option) {
-      this.selectedOption = option
+      this.$emit('change', option)
     },
   },
 }

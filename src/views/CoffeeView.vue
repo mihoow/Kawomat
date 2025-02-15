@@ -283,15 +283,15 @@
         <CoffeeCup :size="cupSize" :ingredients="coffee.ingredients" />
       </div>
       <div class="options">
-        <SugarStrengthPicker />
-        <CoffeeTypePicker />
+        <SugarStrengthPicker :selected="sugarStrength" @change="setSugarStrength" />
+        <CoffeeTypePicker :selected="coffeeType" @change="setCoffeeType" />
       </div>
     </div>
     <div class="actions">
       <div class="actions-inner">
         <span class="actions__price">
           {{ localization.t('Do zapłaty', 'To pay') }}:
-          <strong> {{ coffee.price.toFixed(2).replace('.', localization.t(',', '.')) }} zł </strong>
+          <strong> {{ totalPrice.toFixed(2).replace('.', localization.t(',', '.')) }} zł </strong>
         </span>
         <div class="actions__buttons">
           <button class="actions__btn actions__btn--cancel" @click="cancel">
@@ -322,6 +322,8 @@ export default {
     return {
       localization,
       cupSize: this.calculateCupSize(),
+      sugarStrength: 0,
+      coffeeType: 0,
     }
   },
   methods: {
@@ -356,6 +358,12 @@ export default {
     handleWindowResize() {
       this.cupSize = this.calculateCupSize()
     },
+    setSugarStrength(strength) {
+      this.sugarStrength = strength
+    },
+    setCoffeeType(type) {
+      this.coffeeType = type
+    },
     cancel() {
       this.$router.push('/menu')
     },
@@ -378,6 +386,9 @@ export default {
           this.localization.currentLocale,
         ),
       }
+    },
+    totalPrice() {
+      return this.coffee.price + this.sugarStrength * 0.25 + this.coffeeType * 0.5
     },
   },
   mounted() {

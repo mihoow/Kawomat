@@ -58,10 +58,16 @@ header {
   justify-content: center;
 
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .back-button i {
   font-size: 16px;
+}
+
+.back-button:hover {
+  transform-origin: center;
+  transform: scale(1.05);
 }
 
 .back-button__label {

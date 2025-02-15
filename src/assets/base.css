@@ -14,6 +14,11 @@ a {
 button {
   border: none;
   background: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  user-select: none;
 }
 
 body {

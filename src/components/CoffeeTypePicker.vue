@@ -23,6 +23,7 @@
 }
 
 .picker__option {
+  position: relative;
   width: 100%;
   height: 100%;
   padding: 8px;
@@ -37,10 +38,32 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.2s ease;
 }
 
-.picker__option.active {
+.picker__option:hover {
+  transform-origin: center;
+  transform: scale(1.02);
+}
+
+.picker__option-check {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-start: 8px;
+
+  width: 18px;
+  height: 18px;
+  border: 1px solid black;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picker__option.active .picker__option-check {
+  background-color: green;
+  color: white;
 }
 
 .picker__option-label {
@@ -61,21 +84,19 @@
       >{{ localization.t('Wybierz rodzaj kawy', 'Select coffee type') }}:</strong
     >
     <div class="picker">
-      <button
-        class="picker__option"
-        :class="{ active: selectedType === 'instant' }"
-        @click="selectType('instant')"
-      >
+      <button class="picker__option" :class="{ active: selected === 0 }" @click="selectType(0)">
+        <span class="picker__option-check">
+          <i v-if="selected === 0" class="bi bi-check"></i>
+        </span>
         <strong class="picker__option-label">{{
           localization.t('rozpuszczalna', 'instant')
         }}</strong>
         <InstantCoffeeIcon class="picker__option-icon" />
       </button>
-      <button
-        class="picker__option"
-        :class="{ active: selectedType === 'whole-bean' }"
-        @click="selectType('whole-bean')"
-      >
+      <button class="picker__option" :class="{ active: selected === 1 }" @click="selectType(1)">
+        <span class="picker__option-check">
+          <i v-if="selected === 1" class="bi bi-check"></i>
+        </span>
         <strong class="picker__option-label">{{
           localization.t('ziarnista', 'whole-bean')
         }}</strong>
@@ -96,15 +117,20 @@ export default {
     InstantCoffeeIcon,
     WholeBeanCoffeeIcon,
   },
+  props: {
+    selected: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       localization,
-      selectedType: 'whole-bean',
     }
   },
   methods: {
-    selectType(type) {
-      this.selectedType = type
+    selectType(option) {
+      this.$emit('change', option)
     },
   },
 }
