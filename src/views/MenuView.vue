@@ -5,7 +5,7 @@
 
 .coffee-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(151px, 1fr));
   gap: 1rem;
 }
 

@@ -23,7 +23,6 @@
 }
 
 .page-menu .layout__page {
-  max-height: unset;
   overflow-y: unset;
 }
 
@@ -32,6 +31,7 @@ main {
 }
 
 .page-menu main {
+  min-height: unset;
   max-height: calc(100dvh - var(--header-height) - var(--footer-height));
   overflow-y: auto;
 }
@@ -310,7 +310,7 @@ footer {
         <span class="timestamp">{{ formattedTimestamp }}</span>
         <div class="credit">
           <span class="credit_amount"
-            >{{ creditValue.toFixed(2).replace('.', localization.t(',', '.')) }} zł</span
+            >{{ store.credit.toFixed(2).replace('.', localization.t(',', '.')) }} zł</span
           >
           <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
         </div>
