@@ -309,7 +309,7 @@ footer {
         </button>
         <span class="timestamp">{{ formattedTimestamp }}</span>
         <div class="credit">
-          <span class="credit_amount">{{ localization.formatPrice(store.credit) }}</span>
+          <span class="credit_amount">{{ localization.formatPrice(creditValue) }}</span>
           <span class="credit_label">{{ localization.t('Kredyt', 'Credit') }}</span>
         </div>
         <strong class="brand">Vendicafe</strong>
