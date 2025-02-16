@@ -344,7 +344,7 @@ import localization from '@/localization'
 import store from '@/store'
 
 const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'touchstart']
-const INACTIVITY_TIMEOUT = 60000 * 300
+const INACTIVITY_TIMEOUT = 60000
 
 export default {
   name: 'AppLayout',
